@@ -18,12 +18,9 @@ public class GenerateFamilyTree : MonoBehaviour {
         return 1;
     }
 
-    public void GenerateEntireTree() {
-
-    }
-
-    private void GenerateNode(MonsterData current, int height) {
-
+    public void GenerateEntireTree(GameObject parentRef, Vector3 startingPos) {
+        Vector3 currentPos = startingPos;
+        GameObject node = Instantiate(familyTreeNode, currentPos, Quaternion.Euler(Vector3.zero)) as GameObject;
     }
 
     private Texture2D GenerateTexture(MonsterData current, int number) {
