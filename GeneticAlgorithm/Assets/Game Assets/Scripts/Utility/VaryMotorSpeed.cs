@@ -11,8 +11,7 @@ public class VaryMotorSpeed : MonoBehaviour {
     public float maxForce = 50f;
     public float variationPerSec = 15f;
     public bool incrementing = true;
-
-    private float _curForce = 0;
+    public float _curForce = 0;
     
 
 	void Start () {
@@ -21,10 +20,6 @@ public class VaryMotorSpeed : MonoBehaviour {
         
 	}
 
-    public void randomizeValues() {
-        float varPerSec = variationPerSec * 0.15f;
-        variationPerSec += Random.Range(-varPerSec, varPerSec);
-    }
 
     void Update() {
         if (incrementing) {

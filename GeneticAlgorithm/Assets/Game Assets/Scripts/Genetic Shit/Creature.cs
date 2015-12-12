@@ -14,16 +14,7 @@ public class Creature : MonoBehaviour {
 
 
     [Header("Genetic Attributres")]
-    public float genAmountParts;
-    public float genAmountMotors;
-    //Parts
-    public List<Vector2> genPositions;
-    public List<Vector2> genSizes;
-    //Motors
-    public List<Vector2> genMotorOffsets;
-    public List<Vector2> genMotorPosition;
-    public List<float> genMaxRot;
-    public List<float> genStartRot;
+    public CreatureData creatureData;
 
     
     //List of parts
@@ -35,6 +26,8 @@ public class Creature : MonoBehaviour {
 
     //private var
     private Vector3 startPosition;
+    private float maxForce = 50f;
+    private float variationPerSec = 15f;
 
 
     void Awake() {
@@ -53,11 +46,11 @@ public class Creature : MonoBehaviour {
     /// </summary>
     void Initialize() {
         SpawnPart(0);
-        for (int i = 1; i < genAmountParts; i++) {
+        for (int i = 1; i < creatureData.genAmountParts; i++) {
             SpawnPart(i);
         }
-        for (int i = 0; i < genAmountMotors; i++) {
-            SpawnMotor(i, (int)genMotorPosition[i].x, (int)genMotorPosition[i].y);
+        for (int i = 0; i < creatureData.genAmountMotors; i++) {
+            SpawnMotor(i, (int)creatureData.genMotorPosition[i].x, (int)creatureData.genMotorPosition[i].y);
         }
     }
 
@@ -68,8 +61,8 @@ public class Creature : MonoBehaviour {
     void SpawnPart(int index) {
         creatureParts.Add(((GameObject)Instantiate(CreaturePart, transform.position, Quaternion.identity)).GetComponentInChildren<CreaturePart>());
         creatureParts[index].transform.parent = transform;
-        creatureParts[index].transform.localPosition = genPositions[index];
-        creatureParts[index].transform.localScale = new Vector3(genSizes[index].x,genSizes[index].y, Random.Range(0.9f,1.1f));
+        creatureParts[index].transform.localPosition = creatureData.genPositions[index];
+        creatureParts[index].transform.localScale = new Vector3(creatureData.genSizes[index].x, creatureData.genSizes[index].y, Random.Range(0.9f, 1.1f));
 
         //Get Random Color
         creatureParts[index].GetComponent<MeshRenderer>().material.color = new Color(Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f));
@@ -83,13 +76,13 @@ public class Creature : MonoBehaviour {
         creatureMotors.Add((HingeJoint2D)creatureParts[motorBodyIndex].gameObject.AddComponent<HingeJoint2D>());
         //Joint Angle Limits
         JointAngleLimits2D jointAngleLimit = new JointAngleLimits2D();
-        jointAngleLimit.min = -genMaxRot[index];
-        jointAngleLimit.max = genMaxRot[index];
+        jointAngleLimit.min = -creatureData.genMaxRot[index];
+        jointAngleLimit.max = creatureData.genMaxRot[index];
         creatureMotors[index].limits = jointAngleLimit;
 
         //Motor Position
-        creatureMotors[index].anchor = genMotorOffsets[index];
-        creatureMotors[index].connectedAnchor = -genMotorOffsets[index];
+        creatureMotors[index].anchor = creatureData.genMotorOffsets[index];
+        creatureMotors[index].connectedAnchor = -creatureData.genMotorOffsets[index];
 
         //Debug.Log("connetecBodyIndex :" + connetecBodyIndex + "  and index : " + index);
         //Debug.Log("connetecBody :" + creatureParts[connetecBodyIndex] + "  and indexMotor : " + creatureMotors[index]);
@@ -97,54 +90,79 @@ public class Creature : MonoBehaviour {
         creatureMotors[index].connectedBody = creatureParts[connetecBodyIndex].GetComponentInChildren<Rigidbody2D>();
         creatureMotors[index].useMotor = true;
         VaryMotorSpeed varyMotorSpeedScript = creatureMotors[index].gameObject.AddComponent<VaryMotorSpeed>();
-        varyMotorSpeedScript.incrementing = (Random.Range(0f, 1f) > 0.5f) ? varyMotorSpeedScript.incrementing = true : varyMotorSpeedScript.incrementing = false;
+        varyMotorSpeedScript.incrementing = creatureData.genStartRotDirection[index];
+        varyMotorSpeedScript.variationPerSec = creatureData.genMotorVarPerSec[index];
     }
+
+
+    /// <summary>
+    /// Create a new creature of Generation 1
+    /// </summary>
+    public void GenerateNewGenerationOne() {
+        ResetCreature();
+        RandomizeGeneticAttributes();
+        Initialize();
+    }
+
+    /// <summary>
+    /// Reset The Creature
+    /// </summary>
+    private void ResetCreature() {
+        for (int i = 0; i < creatureParts.Count; i++) {
+            Destroy(creatureParts[i].gameObject);
+        }
+        creatureParts = new List<CreaturePart>();
+        creatureMotors = new List<HingeJoint2D>();
+    }
+
 
     /// <summary>
     /// Randomize the genetic atttributes like it is the first generation.
     /// </summary>
-    public void RandomizeGeneticAttributes() {
+    void RandomizeGeneticAttributes() {
+        creatureData = new CreatureData();
+
         //Part & Motors Amount
-        genAmountParts = Random.Range(2,5);
-        genAmountMotors = genAmountParts - 1;
+        creatureData.genAmountParts = Random.Range(2, 5);
+        creatureData.genAmountMotors = creatureData.genAmountParts - 1;
 
         //Position of creature parts
-        genPositions = new List<Vector2>();
-        for (int i = 0; i < genAmountParts; i++) {
+        creatureData.genPositions = new List<Vector2>();
+        for (int i = 0; i < creatureData.genAmountParts; i++) {
             float randX = Random.Range(-1, 1);
             float randY = Random.Range(-1, 1);
-            genPositions.Add(new Vector2(randX, randY));
+            creatureData.genPositions.Add(new Vector2(randX, randY));
         }
         //Size of creature parts
-        genSizes = new List<Vector2>();
-        for (int i = 0; i < genAmountParts; i++) {
+        creatureData.genSizes = new List<Vector2>();
+        for (int i = 0; i < creatureData.genAmountParts; i++) {
             float randX = Random.Range(0.5f, 3f);
             float randY = Random.Range(0.5f, 3f);
-            genSizes.Add(new Vector2(randX, randY));
+            creatureData.genSizes.Add(new Vector2(randX, randY));
         }
 
         //Motors offsets 
-        genMotorOffsets = new List<Vector2>();
-        for (int i = 0; i < genAmountMotors; i++) {
+        creatureData.genMotorOffsets = new List<Vector2>();
+        for (int i = 0; i < creatureData.genAmountMotors; i++) {
             int pos = Random.Range(0, 4);
             switch (pos) {
                 case 0:
-                    genMotorOffsets.Add(new Vector2(0.5f, 0));
+                    creatureData.genMotorOffsets.Add(new Vector2(0.5f, 0));
                     break;
                 case 1:
-                    genMotorOffsets.Add(new Vector2(-0.5f, 0));
+                    creatureData.genMotorOffsets.Add(new Vector2(-0.5f, 0));
                     break;
                 case 2:
-                    genMotorOffsets.Add(new Vector2(0, 0.5f));
+                    creatureData.genMotorOffsets.Add(new Vector2(0, 0.5f));
                     break;
                 case 3:
-                    genMotorOffsets.Add(new Vector2(0, -0.5f));
+                    creatureData.genMotorOffsets.Add(new Vector2(0, -0.5f));
                     break;
             }
         }
         //Motor's connection
-        genMotorPosition = new List<Vector2>();
-        for (int i = 0; i < genAmountMotors; i++) {
+        creatureData.genMotorPosition = new List<Vector2>();
+        for (int i = 0; i < creatureData.genAmountMotors; i++) {
             //Randomizes connections
             /*
             int motorIndex = (int)Random.Range(0, genAmountParts);
@@ -158,25 +176,38 @@ public class Creature : MonoBehaviour {
             //Linear Connections
             int motorIndex = i;
             int connectorIndex = motorIndex + 1;
-            genMotorPosition.Add(new Vector2(motorIndex, connectorIndex));
+            creatureData.genMotorPosition.Add(new Vector2(motorIndex, connectorIndex));
         }
         //Motor max rotation
-        genMaxRot = new List<float>();
-        for (int i = 0; i < genAmountMotors; i++) {
+        creatureData.genMaxRot = new List<float>();
+        for (int i = 0; i < creatureData.genAmountMotors; i++) {
             float randomRot = Random.Range(250, 500);
-            genMaxRot.Add(randomRot);
+            creatureData.genMaxRot.Add(randomRot);
         }
         //Motor start rotation
-        genStartRot = new List<float>();
-        for (int i = 0; i < genAmountMotors; i++) {
-            float randomStartRot = Random.Range(-genMaxRot[i], genMaxRot[i]);
-            genStartRot.Add(randomStartRot);
+        creatureData.genStartRot = new List<float>();
+        for (int i = 0; i < creatureData.genAmountMotors; i++) {
+            float randomStartRot = Random.Range(-creatureData.genMaxRot[i], creatureData.genMaxRot[i]);
+            creatureData.genStartRot.Add(randomStartRot);
+        }
+        //Motor rotation start direction
+        creatureData.genStartRotDirection = new List<bool>();
+        for (int i = 0; i < creatureData.genAmountMotors; i++) {
+            bool increments = (Random.Range(0f, 1f) > 0.5f) ? true : false;
+            creatureData.genStartRotDirection.Add(increments);
+        }
+        //Motor variation per seconds
+        creatureData.genMotorVarPerSec = new List<float>();
+        for (int i = 0; i < creatureData.genAmountMotors; i++) {
+            float varPerSec = variationPerSec * 0.15f;
+            creatureData.genMotorVarPerSec.Add(variationPerSec + Random.Range(-varPerSec, varPerSec));
         }
 
     }
 
     public void StartTrackingDistance() {
         StopCoroutine("CalculateDistance");
+        maxTravelledDistance = 0;
         startPosition = GetPosition();
         StartCoroutine("CalculateDistance");
     }
@@ -187,10 +218,10 @@ public class Creature : MonoBehaviour {
     /// <returns> Vector3 reprensenting creature's position</returns>
     private Vector3 GetPosition() {
         Vector3 position = Vector3.zero;
-        for (int i = 0; i < genAmountParts; i++) {
+        for (int i = 0; i < creatureData.genAmountParts; i++) {
             position += creatureParts[i].transform.position;
         }
-        position /= genAmountParts;
+        position /= creatureData.genAmountParts;
 
         return position;
     }
