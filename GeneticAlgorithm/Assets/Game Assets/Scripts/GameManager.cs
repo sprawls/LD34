@@ -5,13 +5,17 @@ public class GameManager : MonoBehaviour {
 
     #region singleton
 
-    public GameManager Instance { get; private set; }
+    [HideInInspector]
+    public static GameManager Instance { get; private set; }
 
     void Awake() {
         if (Instance == null) {
             Instance = this;
             if (player == null) {
                 player = new PlayerManager();
+            }
+            if (cutsceneStructure == null) {
+                cutsceneStructure = new CutscenesStructure();
             }
             DontDestroyOnLoad(gameObject);
         }
@@ -29,10 +33,12 @@ public class GameManager : MonoBehaviour {
     #endregion
 
     public PlayerManager player { get; private set; }
+    private CutscenesStructure cutsceneStructure;
 
     #region Switch Scene
 
     public Scenes currentScene;
+    public Scenes nextScene = Scenes.training; //Null if no next scenes
 
     public enum Scenes {
         mainMenu,
@@ -65,12 +71,22 @@ public class GameManager : MonoBehaviour {
 
     private void Event_OnEndScene(Scenes scene) {
         switch (scene) {
+            case Scenes.mainMenu:
+                nextScene = Scenes.training;
+                break;
 
+            case Scenes.training:
+                nextScene = Scenes.race;
+                break;
+
+            case Scenes.race:
+                nextScene = Scenes.training;
+                break;
         }
     }
 
-    private void LoadCurrentCutscene() {
-
+    public Cutscenes_Event[] LoadCurrentCutscene() {
+        return cutsceneStructure.GetCutsceneWithNumber(0);
     }
 
     #endregion
