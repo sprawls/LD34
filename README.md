@@ -1,2 +1,2 @@
 # LD34
-Genetic Algorithms ?
+Better Genetic Algorithms ?
