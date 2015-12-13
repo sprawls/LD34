@@ -12,13 +12,11 @@ public class UILineRenderer : MonoBehaviour {
     [SerializeField]
     private RectTransform imageRectTransform;
 
-    public void Setup(Vector3 a, Vector3 b, float width) {
+    public void Setup(Vector3 a, Vector3 b, float width, Color color) {
         pointA = a;
         pointB = b;
         lineWidth = width;
-    }
-
-    void Awake() {
+        GetComponent<Image>().color = color;
         MakeLine();
     }
 
@@ -31,7 +29,7 @@ public class UILineRenderer : MonoBehaviour {
 
         imageRectTransform.sizeDelta = new Vector2(differenceVector.magnitude, lineWidth);
         imageRectTransform.pivot = new Vector2(0, 0.5f);
-        imageRectTransform.position = pointA;
+        imageRectTransform.localPosition = pointA;
         float angle = Mathf.Atan2(differenceVector.y, differenceVector.x) * Mathf.Rad2Deg;
         imageRectTransform.rotation = Quaternion.Euler(0, 0, angle);
     }
