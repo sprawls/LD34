@@ -25,9 +25,9 @@ public class GenerateFamilyTree : MonoBehaviour {
 
     private Texture2D GenerateTexture(MonsterData current, int number) {
         Camera cam = Instantiate(camera, new Vector3(-1000, number * 500, 0), Quaternion.Euler(Vector3.zero)) as Camera;
-        GameObject monster = Instantiate(current.model) as GameObject;
+        /*GameObject monster = Instantiate(current.model) as GameObject;
         monster.transform.SetParent(cam.transform);
-        monster.transform.localPosition = Vector3.zero;
+        monster.transform.localPosition = Vector3.zero;  TODO create model */
 
         RenderTexture texture = new RenderTexture(Screen.width, Screen.height, 40);
         cam.targetTexture = texture;
