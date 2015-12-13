@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour {
     }
 
     void OnLevelWasLoaded(int level) {
-        if (previousScene != null && currentScene == Scenes.mainMenu) GameObject.Find("UI_Manager").GetComponent<UI_Switcher>().InstantOpenTrainingUI();
+        if (previousScene != null && currentScene == Scenes.training) GameObject.Find("UI_Manager").GetComponent<UI_Switcher>().InstantOpenTrainingUI();
         if (currentScene == Scenes.cutscene) LoadCurrentCutscene();
     }
 

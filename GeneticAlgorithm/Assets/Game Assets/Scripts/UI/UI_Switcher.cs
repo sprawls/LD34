@@ -22,8 +22,13 @@ public class UI_Switcher : MonoBehaviour {
 
     }
 
-    public void InstantOpenTrainingUI() { 
-        
+    public void InstantOpenTrainingUI() {
+        menuUI.interactable = false;
+        menuUI.blocksRaycasts = false;
+        menuUI.alpha = 0;
+        trainingUI.alpha = 1;
+        trainingUI.interactable = true;
+        trainingUI.blocksRaycasts = true;
     }
 
     IEnumerator OpenMenuUI(float timeTaken = 0.0001f) {
