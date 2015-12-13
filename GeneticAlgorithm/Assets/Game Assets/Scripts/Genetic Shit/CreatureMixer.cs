@@ -7,12 +7,25 @@ using System.Collections.Generic;
 /// </summary>
 public class CreatureMixer : MonoBehaviour {
 
-    public List<CreatureData> batchToTest = new List<CreatureData>();
+    [Header("Prefabs")]
+    public GameObject TestFloorPrefab;
+    public GameObject CreaturePrefab;
+
+    [Header("References")]
+    public GameObject TestingArea;
+
+    [SerializeField]
+    private List<CreatureData> batchToTest = new List<CreatureData>();
 
     private int amountOfChilds = 15;
     private float fatherInfluence = 0.75f; //Father's influence out of 1. FatherInfluence + MotherInfluence = 1;
     private float motherInfluence; //Mother's influence out of 1. MotherInfluence = (1-fatherInfluence)
     private float randomizationFactor = 0.2f; //Randomization added out of 1 on the found values for most parameters. (0.5 = 50% randomization);
+    private float simulationTime = 10f;
+
+    void Awake() {
+        if (TestingArea == null) TestingArea = GameObject.FindGameObjectWithTag("TestingArea");
+    }
 
     void Start() {
         motherInfluence = 1f - fatherInfluence;
@@ -33,7 +46,7 @@ public class CreatureMixer : MonoBehaviour {
             batchToTest.Add(child);
         }
 
-        StartCoroutine(StartBatchTest(6f, monoToCallback));
+        StartCoroutine(StartBatchTest(simulationTime, monoToCallback));
     }
 
     /// <summary>
@@ -205,6 +218,21 @@ public class CreatureMixer : MonoBehaviour {
         int BestCreatureIndex = 0;
         CreatureData bestData;
         List<Creature> testingCreatures = new List<Creature>();
+        List<GameObject> testingFloors = new List<GameObject>();
+
+        //instantiate creatures to test
+        for (int i = 0; i < batchToTest.Count; i++) {
+            GameObject floorGO = (GameObject)Instantiate(TestFloorPrefab);
+            floorGO.transform.parent = TestingArea.transform;
+            floorGO.transform.localPosition = new Vector3(0, 0, i*2.5f + 5f);
+            testingFloors.Add(floorGO);
+
+            Creature creatureGO = ((GameObject)Instantiate(CreaturePrefab,testingFloors[i].transform.position + new Vector3(0,2.5f,0), Quaternion.identity)).GetComponent<Creature>();
+            creatureGO.GenerateFromData(batchToTest[i]);
+            testingCreatures.Add(creatureGO);
+        }
+
+
         
         yield return new WaitForSeconds(1f);
         foreach (Creature c in testingCreatures) {
@@ -223,6 +251,7 @@ public class CreatureMixer : MonoBehaviour {
         }
         bestData = batchToTest[BestCreatureIndex];
         testingCreatures = new List<Creature>();
+        batchToTest = new List<CreatureData>();
 
         MonoToCallback.SendMessage("BatchTestOver", bestData);
       

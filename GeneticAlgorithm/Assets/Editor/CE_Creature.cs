@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 
 [CustomEditor(typeof(Creature))]
@@ -22,9 +21,13 @@ public class CE_Creature : Editor {
         if (GUILayout.Button("Randomize Genetic Values")) {
             creature.GenerateNewGenerationOne();
         }
+        if (GUILayout.Button("Regenerate Creature")) {
+            creature.GenerateWithSameData();
+        }
         if (GUILayout.Button("Track Distance")) {
             creature.StartTrackingDistance();
         }
+
 
     }
 

@@ -11,28 +11,26 @@ public class VaryMotorSpeed : MonoBehaviour {
     public float maxForce = 50f;
     public float variationPerSec = 15f;
     public bool incrementing = true;
-    public float _curForce = 0;
+    public float curForce = 0;
     
 
 	void Start () {
         _hingeJoint = gameObject.GetComponent<HingeJoint2D>();
-        _curForce = Random.Range(-maxForce,maxForce);
-        
 	}
 
 
     void Update() {
         if (incrementing) {
-            _curForce += variationPerSec * Time.deltaTime;
-            if (_curForce > maxForce) incrementing = false;
+            curForce += variationPerSec * Time.deltaTime;
+            if (curForce > maxForce) incrementing = false;
         } else {
-            _curForce -= variationPerSec * Time.deltaTime;
-            if (_curForce < -maxForce) incrementing = true;
+            curForce -= variationPerSec * Time.deltaTime;
+            if (curForce < -maxForce) incrementing = true;
         }
        
         JointMotor2D tempMotor = new JointMotor2D();
         tempMotor.maxMotorTorque = 10000f;
-        tempMotor.motorSpeed = _curForce;
+        tempMotor.motorSpeed = curForce;
         _hingeJoint.motor = tempMotor;
     }
 

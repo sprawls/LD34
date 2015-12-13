@@ -32,12 +32,11 @@ public class Creature : MonoBehaviour {
 
     void Awake() {
         _distTextMesh = gameObject.GetComponentInChildren<TextMesh>();
+        gameObject.tag = "Creature";
     }
 
 	void Start () {
-        RandomizeGeneticAttributes();
-        Initialize();
-        StartTrackingDistance();
+
 	}
 	
 
@@ -101,6 +100,24 @@ public class Creature : MonoBehaviour {
     public void GenerateNewGenerationOne() {
         ResetCreature();
         RandomizeGeneticAttributes();
+        Initialize();
+    }
+
+    /// <summary>
+    /// Regenerate creature with the same data
+    /// </summary>
+    public void GenerateWithSameData() {
+        ResetCreature();
+        Initialize();
+    }
+
+    /// <summary>
+    /// Creates a new creature from Data
+    /// </summary>
+    /// <param name="nData">Data to create creature with</param>
+    public void GenerateFromData(CreatureData nData){
+        ResetCreature();
+        creatureData = nData;
         Initialize();
     }
 
