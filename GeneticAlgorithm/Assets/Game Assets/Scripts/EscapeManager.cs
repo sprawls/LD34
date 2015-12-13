@@ -10,6 +10,7 @@ public class EscapeManager : MonoBehaviour {
     public Creature playerCreature;
     public Slider EnduranceSlider;
     public Image EnduranceFillImage;
+    public Button ReturnToLabButton;
     public Text QuoteText;
     public Text QuoteAuthorText;
 
@@ -29,6 +30,8 @@ public class EscapeManager : MonoBehaviour {
         EnduranceFillImage.color = fullColor;
         QuoteText.DOFade(0, 0.00f);
         QuoteAuthorText.DOFade(0, 0.00f);
+        ReturnToLabButton.GetComponent<Image>().DOFade(0, 0.00f);
+        ReturnToLabButton.gameObject.SetActive(false);
 
 
         StartEscape();
@@ -37,7 +40,7 @@ public class EscapeManager : MonoBehaviour {
 
     public void StartEscape() {
         //Reset time
-        _startTime = Mathf.Lerp(GameManager.Instance.player.EnduranceLifetimeLimits[0], GameManager.Instance.player.EnduranceLifetimeLimits[1],(float)GameManager.Instance.player.Endurance / 100f);
+        _startTime = Mathf.Lerp(GameManager.Instance.player.EnduranceLifetimeLimits[0], GameManager.Instance.player.EnduranceLifetimeLimits[1], (float)GameManager.Instance.player.currentMonster.Endurance / 100f);
         _timeLeft = _startTime;
         //Start Creature
         playerCreature.GenerateFromData(GameManager.Instance.player.currentMonster.data);  
@@ -75,6 +78,12 @@ public class EscapeManager : MonoBehaviour {
         //Fade In
         QuoteText.DOFade(1, 2.5f);
         QuoteAuthorText.DOFade(1, 2.5f);
+        ReturnToLabButton.gameObject.SetActive(true);
+        ReturnToLabButton.GetComponent<Image>().DOFade(0.65f, 2.5f);
 
+    }
+
+    public void GoBackToLab() {
+        GameManager.Instance.SwitchScene(GameManager.Scenes.training);
     }
 }

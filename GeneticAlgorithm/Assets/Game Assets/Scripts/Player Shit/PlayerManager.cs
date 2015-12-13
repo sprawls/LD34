@@ -12,9 +12,6 @@ public class PlayerManager {
 
     //Creature Stats
     public MonsterData currentMonster { get; private set; }
-    public int Strength = 1;
-    public int Endurance = 1;
-    public int SexAppeal = 1;
 
     //Creature Stats Limits
     public Vector2 StrVariationLimits = new Vector2(2f, 35f);

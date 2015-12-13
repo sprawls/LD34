@@ -89,7 +89,7 @@ public class Creature : MonoBehaviour {
         VaryMotorSpeed varyMotorSpeedScript = creatureMotors[index].gameObject.AddComponent<VaryMotorSpeed>();
         varyMotorSpeedScript.incrementing = creatureData.genStartRotDirection[index];
         //Calculate Variation per seconds based on str
-        float currentVariationPerSec = Mathf.Lerp(GameManager.Instance.player.StrVariationLimits[0], GameManager.Instance.player.StrVariationLimits[1], (float)GameManager.Instance.player.Strength / 100f);
+        float currentVariationPerSec = Mathf.Lerp(GameManager.Instance.player.StrVariationLimits[0], GameManager.Instance.player.StrVariationLimits[1], (float)GameManager.Instance.player.currentMonster.Strength / 100f);
         varyMotorSpeedScript.variationPerSec = creatureData.genMotorVarPerSec[index] * currentVariationPerSec;
     }
 
