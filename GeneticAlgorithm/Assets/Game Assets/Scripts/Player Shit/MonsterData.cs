@@ -23,4 +23,8 @@ public class MonsterData {
         data = Data;
         parents = null;
     }
+
+    public void AddSexAppeal(int val) {
+        SexAppeal = Mathf.Clamp(SexAppeal + val, 0, 100);
+    }
 }
