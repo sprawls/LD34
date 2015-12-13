@@ -24,6 +24,7 @@ public class CameraPositionChanger : MonoBehaviour {
     public void SwitchPosition(float timeTaken) {
         StopAllCoroutines();
         StartCoroutine(SwitchAnim(menuActive ? trainingPosition : menuPosition, menuActive ? trainingSize : menuSize, timeTaken));
+        menuActive = !menuActive;
     }
 
     IEnumerator SwitchAnim(Vector3 pos, float size, float timeTaken) {

@@ -39,7 +39,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17d9a6f0f42669942ac97970c7315d4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentScene: 1
+  currentScene: 0
+  nextScene: 0
+  previousScene: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

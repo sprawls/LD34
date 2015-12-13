@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour {
 
     public Scenes currentScene;
     public Scenes nextScene = Scenes.training; //Null if no next scenes
+    public Scenes previousScene;
 
     public enum Scenes {
         mainMenu,
@@ -48,19 +49,28 @@ public class GameManager : MonoBehaviour {
     }
 
     public void SwitchScene(Scenes scene) {
-        if (currentScene != null) Event_OnEndScene(currentScene);
+        if (currentScene != null) {
+            Event_OnEndScene(currentScene);
+            previousScene = currentScene;
+        }
         currentScene = scene;
         Event_OnStartScene(currentScene);
+    }
+
+    void OnLevelWasLoaded(int level) {
+        if (previousScene != null && currentScene == Scenes.mainMenu) GameObject.Find("UI_Manager").GetComponent<UI_Switcher>().InstantOpenTrainingUI();
+        if (currentScene == Scenes.cutscene) LoadCurrentCutscene();
     }
 
     private void Event_OnStartScene(Scenes scene) {
         switch (scene) {
             case Scenes.training: 
-                Application.LoadLevel("Training");
+                if (previousScene != Scenes.mainMenu) Application.LoadLevel("Training");
                 break;
 
             case Scenes.cutscene:
-                LoadCurrentCutscene();
+                Application.LoadLevel("Cutscenes");
+                nextScene = Scenes.training;
                 break;
 
             case Scenes.race: 

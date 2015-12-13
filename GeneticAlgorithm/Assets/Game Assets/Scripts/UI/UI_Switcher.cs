@@ -14,34 +14,42 @@ public class UI_Switcher : MonoBehaviour {
     private CanvasGroup trainingUI;
 
     public void Switch(bool toTraining) {
-        camera.SwitchPosition(1.5f);
+        camera.SwitchPosition(0.0001f);
         StartCoroutine(toTraining ? OpenTrainingUI() : OpenMenuUI());
     }
 
-    IEnumerator OpenMenuUI() {
+    public void InstantOpenMenuUI() {
+
+    }
+
+    public void InstantOpenTrainingUI() { 
+        
+    }
+
+    IEnumerator OpenMenuUI(float timeTaken = 0.0001f) {
         float time = 0;
 
         trainingUI.interactable = false;
         trainingUI.blocksRaycasts = false;
         while (menuUI.alpha != 1) {
             time += Time.deltaTime;
-            if (time <= 1.5f) trainingUI.alpha = Mathf.Lerp(1, 0, time);
-            else menuUI.alpha = Mathf.Lerp(0, 1, (time - 0.5f) / 2);
+            if (time <= timeTaken / 2 + 0.5f) trainingUI.alpha = Mathf.Lerp(1, 0, time / timeTaken/2);
+            else menuUI.alpha = Mathf.Lerp(0, 1, (time - 0.5f) / timeTaken);
             yield return new WaitForEndOfFrame();
         }
         menuUI.interactable = true;
         menuUI.blocksRaycasts = true;
     }
 
-    IEnumerator OpenTrainingUI() {
+    IEnumerator OpenTrainingUI(float timeTaken = 0.0001f) {
         float time = 0;
 
         menuUI.interactable = false;
         menuUI.blocksRaycasts = false;
         while (trainingUI.alpha != 1) {
             time += Time.deltaTime;
-            if (time <= 1.5f) menuUI.alpha = Mathf.Lerp(1, 0, time); 
-            else trainingUI.alpha = Mathf.Lerp(0, 1, (time - 0.5f) / 2);
+            if (time <= timeTaken / 2 + 0.5f) menuUI.alpha = Mathf.Lerp(1, 0, time / timeTaken / 2);
+            else trainingUI.alpha = Mathf.Lerp(0, 1, (time - 0.5f) / timeTaken);
             yield return new WaitForEndOfFrame();
         }
         trainingUI.interactable = true;
