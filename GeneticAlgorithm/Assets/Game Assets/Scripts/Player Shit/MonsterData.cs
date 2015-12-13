@@ -4,19 +4,19 @@ using System.Collections.Generic;
 
 public class MonsterData {
 
-    public GameObject model;
+    public CreatureData data;
     public List<MonsterData> parents { get; private set; }
     //TODO Stats
 
-    public MonsterData(GameObject Model, MonsterData previousMonster, MonsterData partnerMonster) {
-        model = Model;
+    public MonsterData(CreatureData Data, MonsterData previousMonster, CreatureData partnerMonster) {
+        data = Data;
         parents = new List<MonsterData>();
         parents.Add(previousMonster);
-        parents.Add(partnerMonster);
+        parents.Add(new MonsterData(partnerMonster));
     }
 
-    public MonsterData(GameObject Model) {
-        model = Model;
+    public MonsterData(CreatureData Data) {
+        data = Data;
         parents = null;
     }
 }

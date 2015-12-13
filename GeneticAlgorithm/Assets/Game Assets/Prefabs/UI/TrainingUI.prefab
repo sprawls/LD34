@@ -2229,6 +2229,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waitIndicator: {fileID: 11459556}
   trainingUIRef: {fileID: 22575732}
+  confirmButton: {fileID: 11482320}
+  breedingPartnerRef: {fileID: 22510766}
+  generateChildrenButton: {fileID: 11456626}
 --- !u!114 &11488552
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3370,9 +3373,9 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 151610}
   m_Enabled: 1
-  m_Alpha: 0
-  m_Interactable: 0
-  m_BlocksRaycasts: 0
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!1001 &100100000
 Prefab:

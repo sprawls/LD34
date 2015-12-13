@@ -18,7 +18,6 @@ public class QuoteManager : MonoBehaviour {
 
     public static string[] GetQuote() {
         int index = Random.Range(0, Quotes.Length/2);
-        Debug.Log(index + "    " + Quotes.Length/2);
         string[] returnStrings = { Quotes[index,0],Quotes[index,1]} ;
         return returnStrings;
     }
