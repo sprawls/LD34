@@ -17,6 +17,12 @@ public class GameManager : MonoBehaviour {
             if (cutsceneStructure == null) {
                 cutsceneStructure = new CutscenesStructure();
             }
+            if (genesPool == null) {
+                genesPool = new CreatureData[5];
+                for (int i = 0; i < genesPool.Length; i++) {
+                    genesPool[i] = CreatureData.GetRandom();
+                }
+            }
             DontDestroyOnLoad(gameObject);
         }
         else {
@@ -33,6 +39,8 @@ public class GameManager : MonoBehaviour {
     #endregion
 
     public PlayerManager player { get; private set; }
+    public CreatureData[] genesPool;
+
     private CutscenesStructure cutsceneStructure;
 
     #region Switch Scene

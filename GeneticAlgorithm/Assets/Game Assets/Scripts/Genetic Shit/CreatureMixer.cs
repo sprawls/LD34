@@ -17,7 +17,6 @@ public class CreatureMixer : MonoBehaviour {
     [SerializeField]
     private List<CreatureData> batchToTest = new List<CreatureData>();
 
-    private int amountOfChilds = 40;
     private float fatherInfluence = 0.75f; //Father's influence out of 1. FatherInfluence + MotherInfluence = 1;
     private float motherInfluence; //Mother's influence out of 1. MotherInfluence = (1-fatherInfluence)
     private float randomizationFactor = 0.25f; //Randomization added out of 1 on the found values for most parameters. (0.5 = 50% randomization);
@@ -38,10 +37,10 @@ public class CreatureMixer : MonoBehaviour {
     /// <param name="mother">Other creature data</param>
     /// <param name="monoToCallback">Monobehaviour that will be called back after reproduction is over</param>
     /// <returns>Chosen child creature data</returns>
-    public void Reproduce(CreatureData father, CreatureData mother, MonoBehaviour monoToCallback) {
+    public void Reproduce(CreatureData father, CreatureData mother, MonoBehaviour monoToCallback, int amtChilds) {
         CreatureData chosenChild = new CreatureData();
 
-        for (int childI = 0; childI < amountOfChilds; childI++) {
+        for (int childI = 0; childI < amtChilds; childI++) {
             CreatureData child = Mix(father, mother);
             batchToTest.Add(child);
         }
@@ -241,6 +240,7 @@ public class CreatureMixer : MonoBehaviour {
 
         yield return new WaitForSeconds(testTime); //Let Them test out a little
         //Get Best Creature and return its data
+
         for(int i =0 ; i<testingCreatures.Count; i++) {
             float performance = testingCreatures[i].maxTravelledDistance;
             if (performance > BestPerformance) {

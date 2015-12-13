@@ -20,31 +20,75 @@ public class BreedingUI : MonoBehaviour {
     [SerializeField]
     private Button generateChildrenButton;
 
+    [SerializeField]
+    private GeneticLab[] geneticLab;
+
     private int clickedPartnerIndex = -1;
-    private CreatureData[] partnersData;
+    private CreatureData chosenPartnerData;
+    private Button[] buttons;
+
+    //Keep track of Breeding wait :
+    private int partnersLeft = 0;
+    private bool waitingForPlayerChild = false;
+
+    void Start() {
+        buttons = breedingPartnerRef.GetComponentsInChildren<Button>();
+    }
     
 
-    public void GenerateBreedingPartner() { //TODO start partners generation
+    public void GenerateBreedingPartner() { 
         waitIndicator.StartWaiting("Generating Partners");
         trainingUIRef.interactable = false;
+        partnersLeft = 5;
         StartCoroutine(WaitForBreedingPartners());
     }
 
-    private void GenerateChild() { //TODO start child generation
+    private void GenerateChild() { 
         trainingUIRef.interactable = false;
         waitIndicator.StartWaiting("Generating Child");
+        waitingForPlayerChild = true;
+        geneticLab[0].Mix(GameManager.Instance.player.currentMonster.data, chosenPartnerData, this, 30);
         StartCoroutine(WaitForChild());
     }
 
+    public void BatchTestOver(CreatureData chosenChild) {
+        if (partnersLeft > 0) {
+            partnersLeft--;
+            GameManager.Instance.genesPool[partnersLeft] = chosenChild;
+        } else if (waitingForPlayerChild) {
+            waitingForPlayerChild = false;
+            GameManager.Instance.player.ChangeCreature(chosenChild, chosenPartnerData);
+            //Updates all player model 
+            SpawnPlayerCreature[] spawnCreatures = (SpawnPlayerCreature[])FindObjectsOfType(typeof(SpawnPlayerCreature));
+            foreach (SpawnPlayerCreature spc in spawnCreatures) {
+                spc.RespawnPlayerCreature();
+            }
+
+        }
+        
+    }
+
     IEnumerator WaitForChild() {
-        yield return new WaitForSeconds(2.5f); //TODO Replace with waiting for generation to complete
+        while (waitingForPlayerChild) {
+            yield return null;
+        }
+
         waitIndicator.StopWaiting();
-        //GameManager.Instance.player.ChangeCreature(child, partner); TODO
         trainingUIRef.interactable = true;
     }
 
     IEnumerator WaitForBreedingPartners() {
-        yield return new WaitForSeconds(2.5f); //TODO Replace with waiting for generation to complete
+        for (int i = 0; i < 5; i++) {
+            int otherI = (int)Random.Range(0, 5);
+            geneticLab[i].Mix(GameManager.Instance.genesPool[i], GameManager.Instance.genesPool[i], this, 5);
+            Debug.Log("Mixing " + i + " :  " + GameManager.Instance.genesPool[i] + " and " + GameManager.Instance.genesPool[i]);
+            yield return new WaitForSeconds(1f);
+        }
+
+        while (partnersLeft > 0) {
+            yield return null;
+        }
+       
         waitIndicator.StopWaiting();
         trainingUIRef.interactable = true;
         breedingPartnerRef.interactable = true;
@@ -62,11 +106,11 @@ public class BreedingUI : MonoBehaviour {
     }
 
     public void OnClick_Partner(int index) {
-        Button[] buttons = breedingPartnerRef.GetComponentsInChildren<Button>();
         for (int i = 0; i < buttons.Length; i++) {
             buttons[i].interactable = i != index;
         }
         clickedPartnerIndex = index;
+        chosenPartnerData = GameManager.Instance.genesPool[index];
         confirmButton.interactable = true;
     }
 }

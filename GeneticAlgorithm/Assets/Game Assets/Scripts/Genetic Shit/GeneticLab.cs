@@ -44,7 +44,14 @@ public class GeneticLab : MonoBehaviour {
     /// <param name="father"></param>
     /// <param name="mother"></param>
     public void Mix(CreatureData father, CreatureData mother) {
-        mixer.Reproduce(father, mother, this);
+        Mix(father, mother, this, 20);
+    }
+    public void Mix(CreatureData father, CreatureData mother, MonoBehaviour mono) {
+        Mix(father, mother, mono, 20);
+        Debug.Log("Reproduction Mixer Called !");
+    }
+    public void Mix(CreatureData father, CreatureData mother, MonoBehaviour mono, int amtChilds) {
+        mixer.Reproduce(father, mother, mono, amtChilds);
         Debug.Log("Reproduction Mixer Called !");
     }
 
