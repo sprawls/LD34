@@ -6,13 +6,10 @@ public class PlayerManager {
     public PlayerManager() {
         //Create first creature TODO change this to right gen
         currentMonster = new MonsterData(CreatureData.GetRandom());
-        availableTrainingPoints = 0;
     }
 
-    public int availableTrainingPoints;
-
     //Creature Stats
-    public MonsterData currentMonster { get; private set; }
+    public MonsterData currentMonster;
 
     //Creature Stats Limits
     public Vector2 StrVariationLimits = new Vector2(2f, 35f);

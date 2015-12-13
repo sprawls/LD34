@@ -8,7 +8,13 @@ public class StatsUI : MonoBehaviour {
     private Text strength;
 
     [SerializeField]
+    private Button strengthButton;
+
+    [SerializeField]
     private Text endurance;
+
+    [SerializeField]
+    private Button enduranceButton;
 
     [SerializeField]
     private Text sexAppeal;
@@ -16,27 +22,30 @@ public class StatsUI : MonoBehaviour {
     [SerializeField]
     private Text pointsAvailable;
 
+    void Start() {
+        UpdateData();
+    }
+
     public void UpdateData() {
         MonsterData monster = GameManager.Instance.player.currentMonster;
         strength.text = monster.Strength.ToString();
         endurance.text = monster.Endurance.ToString();
         sexAppeal.text = monster.SexAppeal.ToString();
-        pointsAvailable.text = GameManager.Instance.player.availableTrainingPoints.ToString();
+        enduranceButton.interactable = monster.Endurance < 100 && GameManager.Instance.player.currentMonster.availablePoints > 0;
+        strengthButton.interactable = monster.Strength < 100 && GameManager.Instance.player.currentMonster.availablePoints > 0;
+        pointsAvailable.text = GameManager.Instance.player.currentMonster.availablePoints.ToString();
     }
 
     public void OnClick_TrainStrength() {
-        if (GameManager.Instance.player.availableTrainingPoints > 0) {
-            GameManager.Instance.player.availableTrainingPoints--;
-            GameManager.Instance.player.currentMonster.Strength++;
-        }
+        GameManager.Instance.player.currentMonster.availablePoints--;
+        GameManager.Instance.player.currentMonster.Strength++;
         UpdateData();
     }
 
     public void OnClick_TrainEndurance() {
-        if (GameManager.Instance.player.availableTrainingPoints > 0) {
-            GameManager.Instance.player.availableTrainingPoints--;
-            GameManager.Instance.player.currentMonster.Endurance++;
-        }
+        PlayerManager player = GameManager.Instance.player;
+        player.currentMonster.availablePoints--;
+        player.currentMonster.Endurance++;
         UpdateData();
     }
 }

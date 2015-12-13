@@ -99,7 +99,7 @@ public class GameManager : MonoBehaviour {
 
             case Scenes.race:
                 nextScene = Scenes.training;
-                player.availableTrainingPoints += 40;
+                player.currentMonster.availablePoints += 40;
                 break;
         }
     }
