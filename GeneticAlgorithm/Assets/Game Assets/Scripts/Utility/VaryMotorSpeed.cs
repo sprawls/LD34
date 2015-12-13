@@ -11,6 +11,7 @@ public class VaryMotorSpeed : MonoBehaviour {
     public float maxForce = 50f;
     public float variationPerSec = 15f;
     public bool incrementing = true;
+    public bool isOn = true;
     public float curForce = 0;
     
 
@@ -20,18 +21,20 @@ public class VaryMotorSpeed : MonoBehaviour {
 
 
     void Update() {
-        if (incrementing) {
-            curForce += variationPerSec * Time.deltaTime;
-            if (curForce > maxForce) incrementing = false;
-        } else {
-            curForce -= variationPerSec * Time.deltaTime;
-            if (curForce < -maxForce) incrementing = true;
+        if (isOn) {
+            if (incrementing) {
+                curForce += variationPerSec * Time.deltaTime;
+                if (curForce > maxForce) incrementing = false;
+            } else {
+                curForce -= variationPerSec * Time.deltaTime;
+                if (curForce < -maxForce) incrementing = true;
+            }
+
+            JointMotor2D tempMotor = new JointMotor2D();
+            tempMotor.maxMotorTorque = 10000f;
+            tempMotor.motorSpeed = curForce;
+            _hingeJoint.motor = tempMotor;
         }
-       
-        JointMotor2D tempMotor = new JointMotor2D();
-        tempMotor.maxMotorTorque = 10000f;
-        tempMotor.motorSpeed = curForce;
-        _hingeJoint.motor = tempMotor;
     }
 
 

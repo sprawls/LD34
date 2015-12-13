@@ -89,7 +89,7 @@ TextMesh:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 121484}
-  m_Text: Hello World
+  m_Text: 
   m_OffsetZ: 0
   m_CharacterSize: 50
   m_LineSpacing: 1
@@ -117,14 +117,11 @@ MonoBehaviour:
   travelledDistance: 0
   maxTravelledDistance: 0
   CreaturePart: {fileID: 147292, guid: 1fe41840b680e9244815738f4c13bb2a, type: 2}
-  genAmountParts: 0
-  genAmountMotors: 0
-  genPositions: []
-  genSizes: []
-  genMotorOffsets: []
-  genMotorPosition: []
-  genMaxRot: []
-  genStartRot: []
+  Strength: 1
+  Endurance: 1
+  SexAppeal: 1
+  StrVariationLimits: {x: .5, y: 15}
+  EnduranceLifetimeLimits: {x: 5, y: 15}
   creatureParts: []
   creatureMotors: []
 --- !u!1001 &100100000

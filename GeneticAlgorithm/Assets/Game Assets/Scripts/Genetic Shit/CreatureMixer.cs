@@ -17,11 +17,11 @@ public class CreatureMixer : MonoBehaviour {
     [SerializeField]
     private List<CreatureData> batchToTest = new List<CreatureData>();
 
-    private int amountOfChilds = 15;
+    private int amountOfChilds = 40;
     private float fatherInfluence = 0.75f; //Father's influence out of 1. FatherInfluence + MotherInfluence = 1;
     private float motherInfluence; //Mother's influence out of 1. MotherInfluence = (1-fatherInfluence)
-    private float randomizationFactor = 0.2f; //Randomization added out of 1 on the found values for most parameters. (0.5 = 50% randomization);
-    private float simulationTime = 10f;
+    private float randomizationFactor = 0.25f; //Randomization added out of 1 on the found values for most parameters. (0.5 = 50% randomization);
+    private float simulationTime = 12f;
 
     void Awake() {
         if (TestingArea == null) TestingArea = GameObject.FindGameObjectWithTag("TestingArea");
@@ -233,7 +233,7 @@ public class CreatureMixer : MonoBehaviour {
         }
 
 
-        
+        //Initialize track
         yield return new WaitForSeconds(1f);
         foreach (Creature c in testingCreatures) {
             c.StartTrackingDistance();
