@@ -24,7 +24,7 @@ public class FamilyTreeCreater : MonoBehaviour {
             GameObject node = Instantiate(treeNode) as GameObject;
             node.transform.SetParent(transform);
             node.transform.localPosition = currentPos;
-            node.GetComponent<FamilyTreeNode>().SetUp(new Vector3(0, i == 0 ? 0 : -yOffset, 0), new Sprite() /*TODO Replace with picture*/, "Roger Toupin", 10, Color.red, current); //TODO replace with good data
+            node.GetComponent<FamilyTreeNode>().SetUp(new Vector3(0, i == 0 ? 0 : -yOffset, 0), new Sprite() /*TODO Replace with picture*/, current.name, 10, Color.red, current); //TODO replace with good data
 
             currentPos += new Vector3(0, yOffset, 0);
             if (current.parents != null && current.parents.Count != 0) {
@@ -32,7 +32,7 @@ public class FamilyTreeCreater : MonoBehaviour {
                 GameObject motherNode = Instantiate(treeNode) as GameObject;
                 motherNode.transform.SetParent(transform);
                 motherNode.transform.localPosition = currentPos + new Vector3(xOffset, -40f, 0);
-                motherNode.GetComponent<FamilyTreeNode>().SetUp(new Vector3(-xOffset, -yOffset + 40f, 0), new Sprite() /*TODO Replace with picture*/ , "Rogette Toupin", 5, Color.blue, null); //TODO replace with good data
+                motherNode.GetComponent<FamilyTreeNode>().SetUp(new Vector3(-xOffset, -yOffset + 40f, 0), new Sprite() /*TODO Replace with picture*/ , current.parents[1].name, 5, Color.blue, null); //TODO replace with good data
 
                 current = current.parents[0];
             }
