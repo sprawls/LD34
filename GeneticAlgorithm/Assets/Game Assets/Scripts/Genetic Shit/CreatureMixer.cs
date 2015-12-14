@@ -39,6 +39,7 @@ public class CreatureMixer : MonoBehaviour {
     /// <returns>Chosen child creature data</returns>
     public void Reproduce(CreatureData father, CreatureData mother, MonoBehaviour monoToCallback, int amtChilds) {
         CreatureData chosenChild = new CreatureData();
+        batchToTest = new List<CreatureData>();
 
         for (int childI = 0; childI < amtChilds; childI++) {
             CreatureData child = Mix(father, mother);
@@ -85,8 +86,8 @@ public class CreatureMixer : MonoBehaviour {
                 partSize = (((father.genSizes[randomFatherIndex] * fatherInfluence) + (mother.genSizes[randomMotherIndex] * motherInfluence)) / 2f);
             }
 
-            partSize += new Vector2(Random.Range(-partSize.x * randomizationFactor, partSize.x * randomizationFactor),
-                                    Random.Range(-partSize.y * randomizationFactor, partSize.y * randomizationFactor));
+            partSize += new Vector2(Mathf.Min(Mathf.Max(Random.Range(-partSize.x * randomizationFactor, partSize.x * randomizationFactor), 0.2f),4f),
+                                    Mathf.Min(Mathf.Max(Random.Range(-partSize.y * randomizationFactor, partSize.y * randomizationFactor), 0.2f),4f));
             chosenChild.genSizes.Add(partSize);
         }
 
@@ -248,9 +249,11 @@ public class CreatureMixer : MonoBehaviour {
                 BestCreatureIndex = i;
             }
             Destroy(testingCreatures[i].gameObject);
+            Destroy(testingFloors[i].gameObject);
         }
         bestData = batchToTest[BestCreatureIndex];
         testingCreatures = new List<Creature>();
+        testingFloors = new List<GameObject>();
         batchToTest = new List<CreatureData>();
 
         MonoToCallback.SendMessage("BatchTestOver", bestData);

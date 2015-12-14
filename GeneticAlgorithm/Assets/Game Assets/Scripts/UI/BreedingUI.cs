@@ -80,7 +80,7 @@ public class BreedingUI : MonoBehaviour {
     IEnumerator WaitForBreedingPartners() {
         for (int i = 0; i < 5; i++) {
             int otherI = (int)Random.Range(0, 5);
-            geneticLab[i].Mix(GameManager.Instance.genesPool[i], GameManager.Instance.genesPool[i], this, 5);
+            geneticLab[i].Mix(GameManager.Instance.genesPool[i], GameManager.Instance.genesPool[i], this, 10);
             Debug.Log("Mixing " + i + " :  " + GameManager.Instance.genesPool[i] + " and " + GameManager.Instance.genesPool[i]);
             yield return new WaitForSeconds(1f);
         }
