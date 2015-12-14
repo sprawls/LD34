@@ -234,7 +234,7 @@ public class CreatureMixer : MonoBehaviour {
 
 
         //Initialize track
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
         foreach (Creature c in testingCreatures) {
             c.StartTrackingDistance();
         }
