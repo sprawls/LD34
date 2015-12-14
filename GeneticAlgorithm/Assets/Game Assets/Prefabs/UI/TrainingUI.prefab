@@ -3365,7 +3365,12 @@ MonoBehaviour:
   confirmButton: {fileID: 11482320}
   breedingPartnerRef: {fileID: 22510766}
   generateChildrenButton: {fileID: 11456626}
-  geneticLab: []
+  geneticLab:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &11488552
 MonoBehaviour:
   m_ObjectHideFlags: 1
