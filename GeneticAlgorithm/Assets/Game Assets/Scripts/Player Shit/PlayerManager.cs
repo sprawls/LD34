@@ -8,6 +8,9 @@ public class PlayerManager {
         currentMonster = new MonsterData(CreatureData.GetRandom());
     }
 
+    public int Endurance = 1;
+    public int Strength = 1;
+
     //Creature Stats
     public MonsterData currentMonster;
 
