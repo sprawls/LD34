@@ -19,6 +19,10 @@ public class FamilyTreeNode : MonoBehaviour {
     }
 
     public void OnClick_SwitchToMonster() {
-        GameManager.Instance.player.currentMonster = relatedMonster;
+        PopupUI.Instance.Open("Changing to a previous Creature will destroy the one that came after him. Are you sure you want to continue?", Callback);
+    }
+
+    void Callback(bool result) {
+        if (result) GameManager.Instance.player.currentMonster = relatedMonster;
     }
 }
