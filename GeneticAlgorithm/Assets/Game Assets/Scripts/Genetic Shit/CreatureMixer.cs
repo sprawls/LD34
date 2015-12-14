@@ -77,17 +77,17 @@ public class CreatureMixer : MonoBehaviour {
             int randomMotherIndex = Random.Range(0, mother.genSizes.Count); //random Index used if mother's index does not exist
 
             if(father.genSizes.Count > i && mother.genSizes.Count > i ){
-                partSize = (((father.genSizes[i] * fatherInfluence) + (mother.genSizes[i] * motherInfluence)) / 2f);
+                partSize = (((father.genSizes[i] * fatherInfluence) + (mother.genSizes[i] * motherInfluence)) / 1.8f);
             } else if (father.genSizes.Count > i) {
-                partSize = (((father.genSizes[i] * fatherInfluence) + (mother.genSizes[randomMotherIndex] * motherInfluence)) / 2f);
+                partSize = (((father.genSizes[i] * fatherInfluence) + (mother.genSizes[randomMotherIndex] * motherInfluence)) / 1.8f);
             } else if (mother.genSizes.Count > i) {
-                partSize = (((father.genSizes[randomFatherIndex] * fatherInfluence) + (mother.genSizes[i] * motherInfluence)) / 2f);
+                partSize = (((father.genSizes[randomFatherIndex] * fatherInfluence) + (mother.genSizes[i] * motherInfluence)) / 1.8f);
             } else {
-                partSize = (((father.genSizes[randomFatherIndex] * fatherInfluence) + (mother.genSizes[randomMotherIndex] * motherInfluence)) / 2f);
+                partSize = (((father.genSizes[randomFatherIndex] * fatherInfluence) + (mother.genSizes[randomMotherIndex] * motherInfluence)) / 1.8f);
             }
 
-            partSize += new Vector2(Mathf.Min(Mathf.Max(Random.Range(-partSize.x * randomizationFactor, partSize.x * randomizationFactor), 0.2f),4f),
-                                    Mathf.Min(Mathf.Max(Random.Range(-partSize.y * randomizationFactor, partSize.y * randomizationFactor), 0.2f),4f));
+            partSize += new Vector2(Mathf.Min(Mathf.Max(Random.Range(-partSize.x * randomizationFactor, partSize.x * randomizationFactor), 0.25f),15f),
+                                    Mathf.Min(Mathf.Max(Random.Range(-partSize.y * randomizationFactor, partSize.y * randomizationFactor), 0.25f),1f));
             chosenChild.genSizes.Add(partSize);
         }
 

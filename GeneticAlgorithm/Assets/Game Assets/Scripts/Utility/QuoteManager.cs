@@ -12,7 +12,10 @@ public class QuoteManager : MonoBehaviour {
                                                 { "Sometimes science is a lot more art, than science. A lot of people don't get that.", "~ Rick Sanchez" },
                                                 { "Giving up is always an option, but not always a failure.", "~ Cameron Conaway" },
                                                 { "There are more cells in our brains, than there are brains in our entire body.", "~ Richard Dawkins"},
-                                                {"Sometimes when I close my eyes, I can't see.", "~ DubstepKitty18"}
+                                                { "Sometimes you cannot succeed because the winning condition simply was not programmed.", "~ Someone who made this game"},
+                                                { "Don't forget to breed.", "~ RandomTip"},
+                                                { "Sure, making a genetic algorithm in 48 hours should be easy.", "~ Me, before making this"},
+                                                { "Sometimes when I close my eyes, I can't see.", "~ DubstepKitty18"}
     };
 
 

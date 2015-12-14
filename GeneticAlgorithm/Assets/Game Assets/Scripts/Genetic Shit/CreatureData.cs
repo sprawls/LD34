@@ -84,7 +84,7 @@ public class CreatureData {
         //Motor max rotation
         creatureData.genMaxRot = new List<float>();
         for (int i = 0; i < creatureData.genAmountMotors; i++) {
-            float randomRot = Random.Range(250, 500);
+            float randomRot = Random.Range(360, 500);
             creatureData.genMaxRot.Add(randomRot);
         }
         //Motor start rotation

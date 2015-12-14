@@ -15,8 +15,8 @@ public class PlayerManager {
     public MonsterData currentMonster;
 
     //Creature Stats Limits
-    public Vector2 StrVariationLimits = new Vector2(20f, 150f);
-    public Vector2 EnduranceLifetimeLimits = new Vector2(6, 25f);
+    public Vector2 StrVariationLimits = new Vector2(20f, 225f);
+    public Vector2 EnduranceLifetimeLimits = new Vector2(6, 45f);
 
 
     public void ChangeCreature(CreatureData child, CreatureData partner) {
