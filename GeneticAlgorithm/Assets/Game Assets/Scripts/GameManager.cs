@@ -99,20 +99,13 @@ public class GameManager : MonoBehaviour {
 
             case Scenes.race:
                 nextScene = Scenes.training;
+                player.currentMonster.availablePoints += 40;
                 break;
         }
     }
 
     public Cutscenes_Event[] LoadCurrentCutscene() {
         return cutsceneStructure.GetCutsceneWithNumber(0);
-    }
-
-    #endregion
-
-    #region Breeding 
-
-    public void GenerateBreedingPartner() {
-
     }
 
     #endregion

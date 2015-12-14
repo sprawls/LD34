@@ -8,10 +8,8 @@ public class PlayerManager {
         currentMonster = new MonsterData(CreatureData.GetRandom());
     }
 
-
-
     //Creature Stats
-    public MonsterData currentMonster { get; private set; }
+    public MonsterData currentMonster;
 
     //Creature Stats Limits
     public Vector2 StrVariationLimits = new Vector2(5f, 50f);

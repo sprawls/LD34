@@ -16,22 +16,26 @@ public class FamilyTreeCreater : MonoBehaviour {
 
     public void Create() {
         Vector3 currentPos = new Vector3(0, 100, 2);
-        int generationCount = 5 /*GetTreeHeight(GameManager.Instance.player.currentMonster) TODO use this*/;
+        int generationCount = GetTreeHeight(GameManager.Instance.player.currentMonster);
+        MonsterData current = GameManager.Instance.player.currentMonster; 
 
         for (int i = 0; i < generationCount; i++) {
             //Instantiate himself
             GameObject node = Instantiate(treeNode) as GameObject;
             node.transform.SetParent(transform);
             node.transform.localPosition = currentPos;
-            node.GetComponent<FamilyTreeNode>().SetUp(new Vector3(0, i == 0 ? 0 : -yOffset, 0), new Sprite() /*TODO Replace with picture*/, "Roger Toupin", 10, Color.red); //TODO replace with good data
+            node.GetComponent<FamilyTreeNode>().SetUp(new Vector3(0, i == 0 ? 0 : -yOffset, 0), new Sprite() /*TODO Replace with picture*/, current.name, 10, Color.red, current); //TODO replace with good data
 
             currentPos += new Vector3(0, yOffset, 0);
+            if (current.parents != null && current.parents.Count != 0) {
+                //Instantiate mother
+                GameObject motherNode = Instantiate(treeNode) as GameObject;
+                motherNode.transform.SetParent(transform);
+                motherNode.transform.localPosition = currentPos + new Vector3(xOffset, -40f, 0);
+                motherNode.GetComponent<FamilyTreeNode>().SetUp(new Vector3(-xOffset, -yOffset + 40f, 0), new Sprite() /*TODO Replace with picture*/ , current.parents[1].name, 5, Color.blue, null); //TODO replace with good data
 
-            //Instantiate mother
-            GameObject motherNode = Instantiate(treeNode) as GameObject;
-            motherNode.transform.SetParent(transform);
-            motherNode.transform.localPosition = currentPos + new Vector3(xOffset, -40f, 0);
-            motherNode.GetComponent<FamilyTreeNode>().SetUp(new Vector3(-xOffset, -yOffset + 40f, 0), new Sprite() /*TODO Replace with picture*/ , "Rogette Toupin", 5, Color.blue); //TODO replace with good data
+                current = current.parents[0];
+            }
         }
 
         foreach (UILineRenderer line in GetComponentsInChildren<UILineRenderer>()) {
