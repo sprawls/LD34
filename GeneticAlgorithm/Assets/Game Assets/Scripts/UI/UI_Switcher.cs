@@ -29,6 +29,7 @@ public class UI_Switcher : MonoBehaviour {
         trainingUI.alpha = 1;
         trainingUI.interactable = true;
         trainingUI.blocksRaycasts = true;
+        camera.SwitchPosition(0.0001f);
     }
 
     IEnumerator OpenMenuUI(float timeTaken = 0.0001f) {
