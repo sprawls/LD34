@@ -34,7 +34,10 @@ public class BreedingUI : MonoBehaviour {
     void Start() {
         buttons = breedingPartnerRef.GetComponentsInChildren<Button>();
     }
-    
+
+    public void UpdateUI() {
+        generateChildrenButton.interactable = GameManager.Instance.player.currentMonster.SexAppeal >= 100;
+    }
 
     public void GenerateBreedingPartner() { 
         waitIndicator.StartWaiting("Generating Partners");

@@ -99,7 +99,8 @@ public class GameManager : MonoBehaviour {
 
             case Scenes.race:
                 nextScene = Scenes.training;
-                player.currentMonster.availablePoints += 40;
+                player.currentMonster.availablePoints += 5;
+                player.currentMonster.AddSexAppeal(100);
                 break;
         }
     }

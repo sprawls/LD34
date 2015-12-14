@@ -40,7 +40,7 @@ public class EscapeManager : MonoBehaviour {
 
     public void StartEscape() {
         //Reset time
-        _startTime = Mathf.Lerp(GameManager.Instance.player.EnduranceLifetimeLimits[0], GameManager.Instance.player.EnduranceLifetimeLimits[1], (float)GameManager.Instance.player.currentMonster.Endurance / 100f);
+        _startTime = Mathf.Lerp(GameManager.Instance.player.EnduranceLifetimeLimits[0], GameManager.Instance.player.EnduranceLifetimeLimits[1], (float)GameManager.Instance.player.Endurance / 100f);
         _timeLeft = _startTime;
         //Start Creature
         playerCreature.GenerateFromData(GameManager.Instance.player.currentMonster.data);  

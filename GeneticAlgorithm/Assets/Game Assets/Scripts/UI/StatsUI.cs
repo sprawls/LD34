@@ -27,10 +27,10 @@ public class StatsUI : MonoBehaviour {
     }
 
     public void UpdateData() {
-        MonsterData monster = GameManager.Instance.player.currentMonster;
+        PlayerManager monster = GameManager.Instance.player;
         strength.text = monster.Strength.ToString();
         endurance.text = monster.Endurance.ToString();
-        sexAppeal.text = monster.SexAppeal.ToString();
+        sexAppeal.text = monster.currentMonster.SexAppeal.ToString();
         enduranceButton.interactable = monster.Endurance < 100 && GameManager.Instance.player.currentMonster.availablePoints > 0;
         strengthButton.interactable = monster.Strength < 100 && GameManager.Instance.player.currentMonster.availablePoints > 0;
         pointsAvailable.text = GameManager.Instance.player.currentMonster.availablePoints.ToString();
@@ -38,14 +38,14 @@ public class StatsUI : MonoBehaviour {
 
     public void OnClick_TrainStrength() {
         GameManager.Instance.player.currentMonster.availablePoints--;
-        GameManager.Instance.player.currentMonster.Strength++;
+        GameManager.Instance.player.Strength++;
         UpdateData();
     }
 
     public void OnClick_TrainEndurance() {
         PlayerManager player = GameManager.Instance.player;
         player.currentMonster.availablePoints--;
-        player.currentMonster.Endurance++;
+        player.Endurance++;
         UpdateData();
     }
 }

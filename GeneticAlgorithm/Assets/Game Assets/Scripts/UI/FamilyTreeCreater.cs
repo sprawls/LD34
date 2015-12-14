@@ -67,11 +67,11 @@ public class FamilyTreeCreater : MonoBehaviour {
     }
 
     private int GetTreeHeight(MonsterData current) {
-        if (current.parents != null) {
-            int result1 = GetTreeHeight(current.parents[0]);
-            int result2 = GetTreeHeight(current.parents[1]);
-            return result1 < result2 ? result2 : result1;
+        int count = 0;
+        while (current.parents != null && current.parents.Count > 0) {
+            count++;
+            current = current.parents[0];
         }
-        return 1;
+        return count + 1;
     }
 }

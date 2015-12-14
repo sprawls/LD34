@@ -8,8 +8,6 @@ public class MonsterData {
     public CreatureData data;
     public List<MonsterData> parents { get; private set; }
 
-    public int Strength = 1;
-    public int Endurance = 1;
     public int SexAppeal = 1;
     public int availablePoints = 0;
 
